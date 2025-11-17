@@ -1,0 +1,109 @@
+/* =======================================================
+   TYPOGRAPHY SYSTEM (h1–h3 + paragraph)
+   ======================================================= */
+h1,
+h2,
+h3 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.5px;
+    color: #111;
+}
+
+h1 {
+    font-size: 2.4rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+}
+
+p {
+    font-family: "Roboto", sans-serif;
+    font-size: 1rem;
+    line-height: 1.75;
+    letter-spacing: 0.2px;
+    color: #444;
+}
+
+/* =======================================================
+   INTERACTIVE ELEMENTS (links + buttons)
+   ======================================================= */
+a {
+    color: #0078ff;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+a:active {
+    color: #003f7f;
+}
+
+.btn,
+button,
+input[type="submit"] {
+    background: #0078ff;
+    border-radius: 6px;
+    border: none;
+    padding: 10px 22px;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.btn:hover,
+button:hover,
+input[type="submit"]:hover {
+    background: #0056b3;
+}
+
+.btn:active,
+button:active,
+input[type="submit"]:active {
+    background: #003f7f;
+}
+
+/* =======================================================
+    SPACING SCALE + SURFACE DEPTH
+   ======================================================= */
+section {
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+}
+
+.container,
+.resume-item,
+.portfolio-item,
+.about .container {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* =======================================================   COMPONENT 1: NAVBAR RESTYLE (appearance only)
+   ======================================================= */
+.header {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+/* =======================================================
+    COMPONENT 2: BACK-TO-TOP BUTTON RESTYLE
+   ======================================================= */
+.scroll-top {
+    background: #0078ff !important;
+    border-radius: 50% !important;
+}
+
+.scroll-top:hover {
+    background: #0056b3 !important;
+}
