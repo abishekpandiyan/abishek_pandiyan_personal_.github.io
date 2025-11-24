@@ -18,7 +18,7 @@ h1 {
 h2 {
     font-size: 32px ;
     font-weight: 700 ;
-    color: #fef9f9 ;
+    color: #b25a5a ;
 }
 
 h3 {
@@ -125,7 +125,7 @@ navbar
 
 .portfolio .portfolio-item .portfolio-info {
     background: rgba(123, 44, 191, 0.75) ;
-    color: white ;
+    color: rgb(177, 59, 59) ;
 }
 
 .portfolio .portfolio-info h4,
@@ -136,7 +136,7 @@ navbar
 
 .portfolio .portfolio-info .preview-link,
 .portfolio .portfolio-info .details-link {
-    color: white ;
+    color: rgb(201, 86, 86) ;
 }
 
 .portfolio .portfolio-info .preview-link:hover,
