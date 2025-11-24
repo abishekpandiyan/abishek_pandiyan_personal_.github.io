@@ -1,97 +1,145 @@
 
+
 h1,
 h2,
 h3 {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    line-height: 1.25;
+    font-family: "Inter", Arial, sans-serif ;
+    color: #cd9e9e ;
     letter-spacing: 0.5px;
-    color: #111;
+    line-height: 1.25;
 }
 
 h1 {
-    font-size: 2.4rem;
+    font-size: 42px ;
+    font-weight: 800 ;
+    color: #080707 ;
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 32px ;
+    font-weight: 700 ;
+    color: #fef9f9 ;
 }
 
 h3 {
-    font-size: 1.4rem;
+    font-size: 24px ;
+    font-weight: 600 ;
+    color: #000000 ;
 }
 
 p {
-    font-family: "Roboto", sans-serif;
-    font-size: 1rem;
-    line-height: 1.75;
-    letter-spacing: 0.2px;
-    color: #444;
+    font-family: "Inter", sans-serif ;
+    font-size: 16px ;
+    line-height: 1.7 ;
+    color: #000000 ;
 }
 
+
 a {
-    color: #0078ff;
-    transition: 0.3s;
+    color: #000000 ;
+    font-weight: 600;
 }
 
 a:hover {
-    color: #0056b3;
+    color: #000000 ;
 }
 
 a:active {
-    color: #003f7f;
+    color: #000000 ;
 }
 
-.btn,
 button,
-input[type="submit"] {
-    background: #0078ff;
-    border-radius: 6px;
-    border: none;
-    padding: 10px 22px;
-    color: #fff;
-    transition: 0.3s;
+.btn,
+input[type=submit] {
+    background: #7b2cbf ;
+    border-radius: 8px ;
+    border: none ;
+    padding: 10px 24px ;
+    color: rgb(214, 155, 155) ;
+    font-weight: 600;
+    transition: 0.25s ease;
 }
 
-.btn:hover,
 button:hover,
-input[type="submit"]:hover {
-    background: #0056b3;
+.btn:hover {
+    background: #9d4edd ;
 }
 
-.btn:active,
 button:active,
-input[type="submit"]:active {
-    background: #003f7f;
-}
-
-section {
-    padding-top: 80px !important;
-    padding-bottom: 80px !important;
-}
-
-.container,
-.resume-item,
-.portfolio-item,
-.about .container {
-    background: #fff;
-    border-radius: 10px;
-    padding: 30px;
-    margin-bottom: 40px;
-    box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.08);
-}
-
-.header {
-    background: #ffffff !important;
-    border-bottom: 1px solid #e3e3e3;
+.btn:active {
+    background: #c77dff ;
 }
 
 
-.scroll-top {
-    background: #0078ff !important;
-    border-radius: 50% !important;
+
+section#about,
+section#resume,
+section#portfolio {
+    padding: 80px 0 ;
+    
 }
 
-.scroll-top:hover {
-    background: #0056b3 !important;
+
+section#about .content,
+.resume .resume-item,
+.portfolio .portfolio-item {
+    background: #974d4d ;
+    border-radius: 16px ;
+    padding: 25px ;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08) ;
+}
+
+navbar
+.nav-tabs {
+    border-bottom: 3px solid #5c0091 ;
+}
+
+.nav-tabs .nav-link {
+    background: #5f5c61 ;
+    border: none ;
+    padding: 12px 20px ;
+    border-radius: 12px 12px 0 0 ;
+    color: #5a189a ;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.nav-tabs .nav-link.active {
+    background: #9d4edd ;
+    color: rgb(243, 121, 121) ;
+}
+
+
+.portfolio .portfolio-item {
+    border-radius: 20px ;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) ;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.portfolio .portfolio-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.20) ;
+}
+
+
+.portfolio .portfolio-item .portfolio-info {
+    background: rgba(123, 44, 191, 0.75) ;
+    color: white ;
+}
+
+.portfolio .portfolio-info h4,
+.portfolio .portfolio-info p {
+    color: rgb(217, 122, 122) ;
+}
+
+
+.portfolio .portfolio-info .preview-link,
+.portfolio .portfolio-info .details-link {
+    color: white ;
+}
+
+.portfolio .portfolio-info .preview-link:hover,
+.portfolio .portfolio-info .details-link:hover {
+    color: #b06557 ;
 }
