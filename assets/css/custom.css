@@ -1,6 +1,4 @@
-/* =======================================================
-   TYPOGRAPHY SYSTEM (h1–h3 + paragraph)
-   ======================================================= */
+
 h1,
 h2,
 h3 {
@@ -31,9 +29,6 @@ p {
     color: #444;
 }
 
-/* =======================================================
-   INTERACTIVE ELEMENTS (links + buttons)
-   ======================================================= */
 a {
     color: #0078ff;
     transition: 0.3s;
@@ -70,9 +65,6 @@ input[type="submit"]:active {
     background: #003f7f;
 }
 
-/* =======================================================
-    SPACING SCALE + SURFACE DEPTH
-   ======================================================= */
 section {
     padding-top: 80px !important;
     padding-bottom: 80px !important;
@@ -89,16 +81,12 @@ section {
     box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.08);
 }
 
-/* =======================================================   COMPONENT 1: NAVBAR RESTYLE (appearance only)
-   ======================================================= */
 .header {
     background: #ffffff !important;
     border-bottom: 1px solid #e3e3e3;
 }
 
-/* =======================================================
-    COMPONENT 2: BACK-TO-TOP BUTTON RESTYLE
-   ======================================================= */
+
 .scroll-top {
     background: #0078ff !important;
     border-radius: 50% !important;
