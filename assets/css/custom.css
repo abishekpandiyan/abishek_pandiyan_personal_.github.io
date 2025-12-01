@@ -1,22 +1,15 @@
-/* ===========================
-   PASTEL THEME CUSTOMIZATION
-   =========================== */
 
-/* Soft pastel variables */
 :root {
     --pastel-blue: #a7c7e7;
     --pastel-pink: #f7c6d0;
     --pastel-purple: #d6c8ff;
-    --pastel-green: #c9f4e2;
+    --pastel-green: #307457;
     --pastel-yellow: #6bc7ba;
 
     --text-dark: #4e4e4e;
     --text-light: #ec6a6a;
 }
 
-/* ===========================
-      TYPOGRAPHY SYSTEM
-   =========================== */
 
 h1,
 h2,
@@ -47,9 +40,7 @@ p {
     color: #7fa553;
 }
 
-/* ===========================
-   LINKS + BUTTON INTERACTION
-   =========================== */
+
 
 a {
     color: var(--pastel-purple);
@@ -80,13 +71,11 @@ button:active,
     background: var(--pastel-green);
 }
 
-/* ===========================
-   SPACING & SURFACES
-   =========================== */
+
 
 section {
     padding: 80px 0;
-    /* Consistent spacing across 3+ sections */
+    
 }
 
 .card,
@@ -98,9 +87,7 @@ section {
     padding: 20px;
 }
 
-/* ===========================
-   PASTEL PORTFOLIO CARDS
-   =========================== */
+
 
 .portfolio .portfolio-item {
     border-radius: 18px;
@@ -115,9 +102,7 @@ section {
     box-shadow: 0 8px 30px rgba(255, 79, 79, 0.675);
 }
 
-/* ===========================
-   CUSTOMIZED BACK-TO-TOP BUTTON
-   =========================== */
+
 
 #scroll-top {
     background: var(--pastel-pink);
@@ -128,11 +113,7 @@ section {
     background: var(--pastel-purple);
 }
 
-/* ===========================
-      CUSTOM ANIMATIONS
-   =========================== */
 
-/* 1) Fade-in for all sections */
 @keyframes softFade {
     from {
         opacity: 0;
@@ -149,7 +130,6 @@ section {
     animation: softFade 0.8s ease forwards;
 }
 
-/* 2) Button pulse hover animation */
 @keyframes buttonPulse {
     0% {
         transform: scale(1);
@@ -169,7 +149,7 @@ button:hover,
     animation: buttonPulse 0.4s ease-in-out;
 }
 
-/* Reduced motion accessibility */
+
 @media (prefers-reduced-motion: reduce) {
     * {
         animation: none !important;
@@ -177,9 +157,6 @@ button:hover,
     }
 }
 
-/* ===========================
-        CSS-ONLY LOADER
-   =========================== */
 
 .loader {
     width: 55px;
