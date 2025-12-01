@@ -1,145 +1,202 @@
+/* ===========================
+   PASTEL THEME CUSTOMIZATION
+   =========================== */
 
+/* Soft pastel variables */
+:root {
+    --pastel-blue: #a7c7e7;
+    --pastel-pink: #f7c6d0;
+    --pastel-purple: #d6c8ff;
+    --pastel-green: #c9f4e2;
+    --pastel-yellow: #6bc7ba;
+
+    --text-dark: #4e4e4e;
+    --text-light: #ec6a6a;
+}
+
+/* ===========================
+      TYPOGRAPHY SYSTEM
+   =========================== */
 
 h1,
 h2,
 h3 {
-    font-family: "Inter", Arial, sans-serif ;
-    color: #cd9e9e ;
-    letter-spacing: 0.5px;
-    line-height: 1.25;
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 1px;
+    color: var(--text-dark);
 }
 
 h1 {
-    font-size: 42px ;
-    font-weight: 800 ;
-    color: #080707 ;
+    font-size: 42px;
+    font-weight: 800;
 }
 
 h2 {
-    font-size: 32px ;
-    font-weight: 700 ;
-    color: #b25a5a ;
+    font-size: 32px;
+    font-weight: 700;
 }
 
 h3 {
-    font-size: 24px ;
-    font-weight: 600 ;
-    color: #000000 ;
+    font-size: 24px;
+    font-weight: 600;
 }
 
 p {
-    font-family: "Inter", sans-serif ;
-    font-size: 16px ;
-    line-height: 1.7 ;
-    color: #000000 ;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #7fa553;
 }
 
+/* ===========================
+   LINKS + BUTTON INTERACTION
+   =========================== */
 
 a {
-    color: #000000 ;
-    font-weight: 600;
+    color: var(--pastel-purple);
+    transition: 0.3s ease;
 }
 
 a:hover {
-    color: #000000 ;
-}
-
-a:active {
-    color: #000000 ;
+    color: var(--pastel-blue);
 }
 
 button,
-.btn,
-input[type=submit] {
-    background: #7b2cbf ;
-    border-radius: 8px ;
-    border: none ;
-    padding: 10px 24px ;
-    color: rgb(214, 155, 155) ;
-    font-weight: 600;
-    transition: 0.25s ease;
+.btn {
+    background: var(--pastel-blue);
+    border-radius: 8px;
+    border: none;
+    padding: 10px 22px;
+    transition: 0.3s ease;
+    color: var(--text-dark);
 }
 
 button:hover,
 .btn:hover {
-    background: #9d4edd ;
+    background: var(--pastel-purple);
 }
 
 button:active,
 .btn:active {
-    background: #c77dff ;
+    background: var(--pastel-green);
 }
 
+/* ===========================
+   SPACING & SURFACES
+   =========================== */
 
-
-section#about,
-section#resume,
-section#portfolio {
-    padding: 80px 0 ;
-    
+section {
+    padding: 80px 0;
+    /* Consistent spacing across 3+ sections */
 }
 
-
-section#about .content,
-.resume .resume-item,
-.portfolio .portfolio-item {
-    background: #974d4d ;
-    border-radius: 16px ;
-    padding: 25px ;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08) ;
+.card,
+.portfolio-item,
+.service-item {
+    border-radius: 14px;
+    background: var(--pastel-yellow);
+    box-shadow: 0 4px 16px rgba(109, 29, 29, 0.567);
+    padding: 20px;
 }
 
-navbar
-.nav-tabs {
-    border-bottom: 3px solid #5c0091 ;
-}
-
-.nav-tabs .nav-link {
-    background: #5f5c61 ;
-    border: none ;
-    padding: 12px 20px ;
-    border-radius: 12px 12px 0 0 ;
-    color: #5a189a ;
-    font-weight: 600;
-    margin-right: 8px;
-}
-
-.nav-tabs .nav-link.active {
-    background: #9d4edd ;
-    color: rgb(243, 121, 121) ;
-}
-
+/* ===========================
+   PASTEL PORTFOLIO CARDS
+   =========================== */
 
 .portfolio .portfolio-item {
-    border-radius: 20px ;
+    border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) ;
-    transition: transform .25s ease, box-shadow .25s ease;
+    background: var(--pastel-blue);
+    padding: 12px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .portfolio .portfolio-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.20) ;
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(255, 79, 79, 0.675);
 }
 
+/* ===========================
+   CUSTOMIZED BACK-TO-TOP BUTTON
+   =========================== */
 
-.portfolio .portfolio-item .portfolio-info {
-    background: rgba(123, 44, 191, 0.75) ;
-    color: rgb(177, 59, 59) ;
+#scroll-top {
+    background: var(--pastel-pink);
+    border-radius: 50%;
 }
 
-.portfolio .portfolio-info h4,
-.portfolio .portfolio-info p {
-    color: rgb(217, 122, 122) ;
+#scroll-top:hover {
+    background: var(--pastel-purple);
 }
 
+/* ===========================
+      CUSTOM ANIMATIONS
+   =========================== */
 
-.portfolio .portfolio-info .preview-link,
-.portfolio .portfolio-info .details-link {
-    color: rgb(201, 86, 86) ;
+/* 1) Fade-in for all sections */
+@keyframes softFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.portfolio .portfolio-info .preview-link:hover,
-.portfolio .portfolio-info .details-link:hover {
-    color: #b06557 ;
+section {
+    animation: softFade 0.8s ease forwards;
+}
+
+/* 2) Button pulse hover animation */
+@keyframes buttonPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.04);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+button:hover,
+.btn:hover {
+    animation: buttonPulse 0.4s ease-in-out;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ===========================
+        CSS-ONLY LOADER
+   =========================== */
+
+.loader {
+    width: 55px;
+    height: 55px;
+    border: 6px solid var(--pastel-blue);
+    border-top-color: var(--pastel-pink);
+    border-radius: 50%;
+    animation: spinLoader 0.9s linear infinite;
+    margin: 50px auto;
+}
+
+@keyframes spinLoader {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
