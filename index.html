@@ -615,51 +615,20 @@
             <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
               <div class="col-lg-8">
   <!-- Custom JS-powered contact form -->
-  <form id="contact-form" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-    <div class="row gy-4">
+  <form id="contact-form" class="php-email-form">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="text" name="surname" placeholder="Surname" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="phone" placeholder="Phone number" required>
+    <input type="text" name="address" placeholder="Address" required>
 
-      <!-- Text fields -->
-      <div class="col-md-6">
-        <input type="text" name="name" class="form-control" placeholder="Name" required>
-      </div>
+    <input type="number" name="rating1" min="0" max="10" placeholder="Rating 1" required>
+    <input type="number" name="rating2" min="0" max="10" placeholder="Rating 2" required>
+    <input type="number" name="rating3" min="0" max="10" placeholder="Rating 3" required>
 
-      <div class="col-md-6">
-        <input type="text" name="surname" class="form-control" placeholder="Surname" required>
-      </div>
+    <button type="submit">Submit</button>
+</form>
 
-      <div class="col-md-6">
-        <input type="email" name="email" class="form-control" placeholder="Email" required>
-      </div>
-
-      <div class="col-md-6">
-        <input type="text" name="phone" class="form-control" placeholder="Phone number" required>
-      </div>
-
-      <div class="col-md-12">
-        <input type="text" name="address" class="form-control" placeholder="Address" required>
-      </div>
-
-      <!-- Rating questions (0–10) -->
-      <div class="col-md-4">
-        <label class="form-label">Question 1 (0–10)</label>
-        <input type="number" name="rating1" class="form-control" min="0" max="10" step="1" required>
-      </div>
-
-      <div class="col-md-4">
-        <label class="form-label">Question 2 (0–10)</label>
-        <input type="number" name="rating2" class="form-control" min="0" max="10" step="1" required>
-      </div>
-
-      <div class="col-md-4">
-        <label class="form-label">Question 3 (0–10)</label>
-        <input type="number" name="rating3" class="form-control" min="0" max="10" step="1" required>
-      </div>
-
-      <div class="col-md-12 text-center">
-        <button type="submit">Submit</button>
-      </div>
-    </div>
-  </form>
   <div id="contact-results"></div>
   <p id="contact-average"></p>
 
