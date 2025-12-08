@@ -1,234 +1,85 @@
-/* ============================================================
-   custom.js – Contact form logic for Lonely template
-   Author: Abishek Pandiyan (EKFU 24)
-
-   This file implements the required functionality:
-   - Extends the contact form
-   - Collects values on submit
-   - Stores them in a JS object
-   - Logs the object to the console
-   - Displays the values below the form
-   - Generates a helper tag
-   - Computes and color-codes the average rating
-   - Shows a success popup
-   ============================================================ */
-
-// Run the code only after the HTML document has loaded
 document.addEventListener("DOMContentLoaded", function () {
-    // 1. Grab the form element by its id (you must set id="contact-form" on your form)
+
     const form = document.getElementById("contact-form");
+    const results = document.getElementById("contact-results");
+    const averageBox = document.getElementById("contact-average");
+    const popup = document.getElementById("popup-success");
 
-    // 2. Containers for displaying results and average below the form
-    const resultsContainer = document.getElementById("contact-results");
-    const averageContainer = document.getElementById("contact-average");
+    // ---- Function to color-code rating inputs ----
+    function applyRatingColor(input) {
+        const value = Number(input.value);
 
-    // 3. If any of these elements are missing, stop – avoids JS errors
-    if (!form || !resultsContainer || !averageContainer) {
-        console.warn(
-            "Contact form or results containers not found. Check element ids: contact-form, contact-results, contact-average."
-        );
-        return;
+        if (value <= 4) {
+            input.style.backgroundColor = "#ffb3b3";   // light red
+        }
+        else if (value <= 7) {
+            input.style.backgroundColor = "#ffd9b3";   // light orange
+        }
+        else if (value <= 10) {
+            input.style.backgroundColor = "#c2f0c2";   // light green
+        }
+        else {
+            input.style.backgroundColor = "white";
+        }
     }
 
-    // 4. Create a popup element for success notification (hidden by default)
-    const successPopup = createSuccessPopup();
+    // Add live color update to rating inputs
+    ["rating1", "rating2", "rating3"].forEach(id => {
+        const input = form[id];
+        input.addEventListener("input", () => applyRatingColor(input));
+    });
 
-    // 5. Attach the submit event handler to the form
+    // ---- Form submission handling ----
     form.addEventListener("submit", function (event) {
-        // Prevent the browser from reloading the page
         event.preventDefault();
 
-        // 6. Read all form values from inputs by their name attributes
-        const name = form.elements["name"]?.value.trim() || "";
-        const surname = form.elements["surname"]?.value.trim() || "";
-        const email = form.elements["email"]?.value.trim() || "";
-        const phone = form.elements["phone"]?.value.trim() || "";
-        const address = form.elements["address"]?.value.trim() || "";
-
-        const rating1 = parseFloat(form.elements["rating1"]?.value);
-        const rating2 = parseFloat(form.elements["rating2"]?.value);
-        const rating3 = parseFloat(form.elements["rating3"]?.value);
-
-        // 7. Basic validation – ensure required fields and ratings are present
-        if (!name || !surname || !email || !phone || !address) {
-            alert("Please fill in all text fields before submitting the form.");
-            return;
-        }
-
-        if (
-            isNaN(rating1) ||
-            isNaN(rating2) ||
-            isNaN(rating3) ||
-            rating1 < 0 ||
-            rating1 > 10 ||
-            rating2 < 0 ||
-            rating2 > 10 ||
-            rating3 < 0 ||
-            rating3 > 10
-        ) {
-            alert("Please provide valid ratings between 0 and 10 for all three questions.");
-            return;
-        }
-
-        // 8. Generate the helper tag (random 5-character uppercase/digit code)
-        const helperTag = generateHelperTag();
-
-        // 9. Create a JavaScript object representing the form data
-        const formData = {
-            name: name,
-            surname: surname,
-            email: email,
-            phone: phone,
-            address: address,
-            rating1: rating1,
-            rating2: rating2,
-            rating3: rating3,
-            helperTag: helperTag
+        const data = {
+            name: form.name.value.trim(),
+            surname: form.surname.value.trim(),
+            email: form.email.value.trim(),
+            phone: form.phone.value.trim(),
+            address: form.address.value.trim(),
+            rating1: Number(form.rating1.value),
+            rating2: Number(form.rating2.value),
+            rating3: Number(form.rating3.value),
         };
 
-        // 10. Print the object to the browser console
-        console.log("Contact form submission:", formData);
+        // Helper tag generation
+        const tag = Array.from({ length: 5 }, () =>
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".charAt(
+                Math.floor(Math.random() * 36)
+            )
+        ).join("");
 
-        // 11. Display the data below the form, one item per line
-        displayFormData(formData, resultsContainer);
+        data.helperTag = "FE24-JS-CF-" + tag;
 
-        // 12. Compute the average of the three ratings
-        const average = calculateAverage(rating1, rating2, rating3);
+        console.log("Submitted data:", data);
 
-        // 13. Display and color-code the average value
-        displayAverage(name, surname, average, averageContainer);
+        // Display results
+        results.innerHTML = `
+        <p><strong>Name:</strong> ${data.name}</p>
+        <p><strong>Surname:</strong> ${data.surname}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone}</p>
+        <p><strong>Address:</strong> ${data.address}</p>
+        <p><strong>Helper tag:</strong> ${data.helperTag}</p>
+    
+        // Calculate average
+        const avg = ((data.rating1 + data.rating2 + data.rating3) / 3).toFixed(1);
+        averageBox.textContent = `${data.name} ${data.surname}: ${avg}`;
 
-        // 14. If everything is successful, show the popup notification
-        showSuccessPopup(successPopup);
+        // Color-code average
+        if (avg <= 4) {
+            averageBox.style.color = "red";
+        } else if (avg <= 7) {
+            averageBox.style.color = "orange";
+        } else {
+            averageBox.style.color = "green";
+        }
+
+        // Show popup
+        popup.style.display = "block";
+        setTimeout(() => popup.style.display = "none", 3000);
+
     });
 });
-
-/* ============================================================
-   Helper functions
-   ============================================================ */
-
-/**
- * Generates a helper tag string like:
- *  "FE24-JS-CF-7KQ9B"
- */
-function generateHelperTag() {
-    const prefix = "FE24-JS-CF-";
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let code = "";
-
-    for (let i = 0; i < 5; i++) {
-        const randomIndex = Math.floor(Math.random() * chars.length);
-        code += chars[randomIndex];
-    }
-
-    return prefix + code;
-}
-
-/**
- * Displays the form data in the results container
- * as separate lines, matching the example in the assignment.
- */
-function displayFormData(data, container) {
-    container.innerHTML = ""; // clear previous results
-
-    const lines = [
-        `Name: ${data.name}`,
-        `Surname: ${data.surname}`,
-        `Email: ${data.email}`,
-        `Phone number: ${data.phone}`,
-        `Address: ${data.address}`,
-        `Rating 1: ${data.rating1}`,
-        `Rating 2: ${data.rating2}`,
-        `Rating 3: ${data.rating3}`,
-        `Helper tag: ${data.helperTag}`
-    ];
-
-    lines.forEach((text) => {
-        const lineElem = document.createElement("p");
-        lineElem.textContent = text;
-        container.appendChild(lineElem);
-    });
-}
-
-/**
- * Computes the average of three numeric ratings.
- */
-function calculateAverage(r1, r2, r3) {
-    return (r1 + r2 + r3) / 3;
-}
-
-/**
- * Displays the average rating in the format:
- * "Name Surname: 4.8"
- * and color-codes the number:
- *  0–4   → red
- *  4–7   → orange
- *  7–10  → green
- */
-function displayAverage(name, surname, average, container) {
-    // Round to one decimal place for display
-    const averageRounded = average.toFixed(1);
-
-    // Clear any previous content
-    container.innerHTML = "";
-
-    const labelSpan = document.createElement("span");
-    labelSpan.textContent = `${name} ${surname}: `;
-
-    const valueSpan = document.createElement("span");
-    valueSpan.textContent = averageRounded;
-
-    // Color-coding the average
-    // Here we interpret:
-    //  [0,4)  → red
-    //  [4,7)  → orange
-    //  [7,10] → green
-    if (average < 4) {
-        valueSpan.style.color = "red";
-    } else if (average < 7) {
-        valueSpan.style.color = "orange";
-    } else {
-        valueSpan.style.color = "green";
-    }
-
-    container.appendChild(labelSpan);
-    container.appendChild(valueSpan);
-}
-
-/**
- * Creates a popup div element for success messages,
- * styles it, hides it initially, and appends it to <body>.
- */
-function createSuccessPopup() {
-    const popup = document.createElement("div");
-    popup.id = "form-success-popup";
-    popup.textContent = "Form submitted successfully!";
-
-    // Basic styling – you can refine in CSS as well
-    popup.style.position = "fixed";
-    popup.style.left = "50%";
-    popup.style.top = "20px";
-    popup.style.transform = "translateX(-50%)";
-    popup.style.backgroundColor = "#4caf50";
-    popup.style.color = "#ffffff";
-    popup.style.padding = "10px 20px";
-    popup.style.borderRadius = "8px";
-    popup.style.boxShadow = "0 4px 10px rgba(0,0,0,0.25)";
-    popup.style.zIndex = "9999";
-    popup.style.display = "none";
-
-    document.body.appendChild(popup);
-    return popup;
-}
-
-/**
- * Displays the success popup temporarily.
- */
-function showSuccessPopup(popup) {
-    popup.style.display = "block";
-
-    // Hide after 3 seconds
-    setTimeout(function () {
-        popup.style.display = "none";
-    }, 3000);
-}
