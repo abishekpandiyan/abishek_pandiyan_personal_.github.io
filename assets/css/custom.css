@@ -177,61 +177,94 @@ button:hover,
     }
 }
 
-#memory-game {
-    margin: 40px auto;
-    max-width: 900px;
-    text-align: center;
-}
+/* ===========================
+   MEMORY GAME LAYOUT
+   =========================== */
 
-.mg-controls {
-    margin-bottom: 20px;
-}
-
-.mg-controls select,
-.mg-controls button {
-    padding: 8px 12px;
-    margin: 5px;
-    font-size: 16px;
-}
-
-.mg-stats {
-    margin-bottom: 20px;
-    font-size: 18px;
-}
-
-.mg-board {
+/* Game board grid – smaller, centered, less gap */
+#gameBoard {
     display: grid;
     gap: 10px;
+    /* space between cards */
     justify-content: center;
+    /* center cards horizontally */
+    align-content: center;
+    /* center cards vertically */
+    max-width: 600px;
+    /* keeps columns close together */
+    margin: 0 auto;
+    /* center on page */
+    padding: 16px;
+    min-height: auto !important;
+    /* override any previous big height */
 }
 
-.mg-card {
-    width: 90px;
-    height: 90px;
-    background: #333;
-    border-radius: 8px;
+/* ===========================
+   MEMORY CARD – BACK SIDE
+   (what you see before flipping)
+   =========================== */
+.memory-card {
+    width: 80px;
+    /* smaller card width */
+    height: 100px;
+    /* smaller card height */
+    background: linear-gradient(135deg,
+            var(--pastel-blue, #a7c7e7) 0%,
+            var(--pastel-purple, #d6c8ff) 100%);
+    border-radius: 12px;
     cursor: pointer;
-    color: white;
-    font-size: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.3s;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transform-style: preserve-3d;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+    color: transparent;
+    /* HIDE emoji/text color on back side */
+    place-self: center;
+    /* center each card in its grid cell */
 }
 
-.mg-card.matched {
-    background: #4CAF50 !important;
+/* Icon inside the card – hidden until flipped */
+.memory-card .card-content {
+    opacity: 0;
+    /* invisible by default */
+    transform: scale(0.6);
+    font-size: 32px;
+    /* slightly smaller emoji size */
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* ===========================
+   FRONT SIDE – flipped / matched
+   =========================== */
+
+/* Background when card is open */
+.memory-card.flipped,
+.memory-card.matched {
+    background: linear-gradient(135deg,
+            var(--pastel-pink, #f7c6d0) 0%,
+            var(--pastel-yellow, #fff4b1) 100%);
+    color: #ffffff;
+    /* icon becomes visible (since text color is white) */
+}
+
+/* Reveal icon on flipped or matched cards */
+.memory-card.flipped .card-content,
+.memory-card.matched .card-content {
+    opacity: 1;
+    /* show emoji */
+    transform: scale(1);
+}
+
+/* Optional: matched cards look a little different and are not clickable */
+.memory-card.matched {
     cursor: default;
-}
-
-.mg-card.flipped {
-    background: #fff;
-    color: #000;
-}
-
-.mg-win-message {
-    margin-top: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: green;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }

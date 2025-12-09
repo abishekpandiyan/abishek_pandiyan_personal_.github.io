@@ -573,170 +573,112 @@
 
     <!-- Contact Section -->
     <section id="contact" class="contact section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Contact</h2>
+      <p>Get in touch</p>
+    </div>
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <p>Get in touch with me for web development or cybersecurity projects. I'm available for freelance work and consultations.</p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-4">
-            <div class="info-item d-flex advanced-hover" data-aos="fade-up" data-aos-delay="200">
-              <i class="bi bi-geo-alt flex-shrink-0"></i>
-              <div>
-                <h3>Address</h3>
-                <p>Vilnius, Lithuania</p>
-              </div>
-            </div><!-- End Info Item -->
-
-            <div class="info-item d-flex advanced-hover" data-aos="fade-up" data-aos-delay="300">
-              <i class="bi bi-telephone flex-shrink-0"></i>
-              <div>
-                <h3>Call Me</h3>
-                <p>+370 62482723</p>
-              </div>
-            </div><!-- End Info Item -->
-
-            <div class="info-item d-flex advanced-hover" data-aos="fade-up" data-aos-delay="400">
-              <i class="bi bi-envelope flex-shrink-0"></i>
-              <div>
-                <h3>Email Me</h3>
-                <p>abishekpandiyan@gmail.com</p>
-              </div>
-            </div><!-- End Info Item -->
-
-            <div class="info-item d-flex advanced-hover" data-aos="fade-up" data-aos-delay="500">
-              <i class="bi bi-clock flex-shrink-0"></i>
-              <div>
-                <h3>Availability</h3>
-                <p>Mon-Fri: 9AM-6PM</p>
-              </div>
-            </div><!-- End Info Item -->
-
-          </div>
-
-          <div class="col-lg-8">
-            <form action="#" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control advanced-hover" placeholder="Your Name" required="">
-                </div>
-
-                <div class="col-md-6">
-                  <input type="text" name="surname" class="form-control advanced-hover" placeholder="Your Surname" required="">
-                </div>
-
-                <div class="col-md-6">
-                  <input type="email" class="form-control advanced-hover" name="email" placeholder="Your Email" required="">
-                </div>
-
-                <div class="col-md-6">
-                  <input type="tel" name="phone" class="form-control advanced-hover" placeholder="Phone Number (+370 xx xxxxx)" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" name="subject" class="form-control advanced-hover" placeholder="Subject" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control advanced-hover" name="message" rows="6" placeholder="Message" required=""></textarea>
-                </div>
-
-                <!-- Rating Section - Centered -->
-                <div class="col-md-12">
-                  <div class="rating-section text-center">
-                    <h4 class="mb-4">Rate Your Experience</h4>
-                    
-                    <div class="row justify-content-center">
-                      <div class="col-md-4 mb-3">
-                        <div class="form-group">
-                          <label for="rating1" class="form-label fw-bold">Service Quality (1-10):</label>
-                          <input type="number" name="rating1" id="rating1" class="form-control form-control-lg text-center" 
-                                  min="1" max="10" placeholder="Enter 1-10" required>
-                          <small class="text-muted">1 is required</small>
-                        </div>
-                      </div>
-                      
-                      <div class="col-md-4 mb-3">
-                        <div class="form-group">
-                          <label for="rating2" class="form-label fw-bold">Response Time (1-10):</label>
-                          <input type="number" name="rating2" id="rating2" class="form-control form-control-lg text-center" 
-                                  min="1" max="10" placeholder="Enter 1-10" required>
-                          <small class="text-muted">1 is required</small>
-                        </div>
-                      </div>
-                      
-                      <div class="col-md-4 mb-3">
-                        <div class="form-group">
-                          <label for="rating3" class="form-label fw-bold">Overall Experience (1-10):</label>
-                          <input type="number" name="rating3" id="rating3" class="form-control form-control-lg text-center" 
-                                  min="1" max="10" placeholder="Enter 1-10" required>
-                          <small class="text-muted">1 is required</small>
-                        </div>
-                      </div>
-                    </div>
-                    
-                  </div>
-                </div>
-                <!-- End Rating Section -->
-
-                <div class="col-md-12">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="security-check" required>
-                    <label class="form-check-label" for="security-check">
-                      I understand this form uses secure encryption
-                    </label>
-                  </div>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent securely. Thank you!</div>
-
-                  <button type="submit" class="btn btn-primary">Send Secure Message</button>
-                </div>
-
-              </div>
-            </form>
-          </div><!-- End Contact Form -->
-
+    <form id="contactForm" class="php-email-form">
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" class="form-control" required>
         </div>
-
+        <div class="col-md-6 form-group mt-3 mt-md-0">
+          <label for="surname">Surname</label>
+          <input type="text" name="surname" id="surname" class="form-control" required>
+        </div>
       </div>
 
-    </section><!-- /Contact Section -->
+      <div class="row mt-3">
+        <div class="col-md-6 form-group">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" class="form-control" required>
+        </div>
+        <div class="col-md-6 form-group mt-3 mt-md-0">
+          <label for="phone">Phone number</label>
+          <input type="tel" name="phone" id="phone" class="form-control" required>
+        </div>
+      </div>
 
+      <div class="form-group mt-3">
+        <label for="address">Address</label>
+        <input type="text" name="address" id="address" class="form-control" required>
+      </div>
 
+      <!-- rating 1 -->
+      <div class="form-group mt-3">
+        <label for="rating1">Website design (1–10)</label>
+        <input type="range" id="rating1" min="1" max="10" value="5" class="form-range">
+        <span id="rating1Value">5</span>/10
+      </div>
 
+      <!-- rating 2 -->
+      <div class="form-group mt-3">
+        <label for="rating2">Content quality (1–10)</label>
+        <input type="range" id="rating2" min="1" max="10" value="5" class="form-range">
+        <span id="rating2Value">5</span>/10
+      </div>
 
-    <section id="memory-game">
-  <h2>Memory Game</h2>
+      <!-- rating 3 -->
+      <div class="form-group mt-3">
+        <label for="rating3">Overall experience (1–10)</label>
+        <input type="range" id="rating3" min="1" max="10" value="5" class="form-range">
+        <span id="rating3Value">5</span>/10
+      </div>
 
-  <div class="mg-controls">
-    <label>Difficulty:</label>
-    <select id="mg-difficulty">
-      <option value="easy">Easy (4×3)</option>
-      <option value="hard">Hard (6×4)</option>
-    </select>
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
 
-    <button id="mg-start">Start</button>
-    <button id="mg-restart">Restart</button>
+    <!-- area where JS prints the results -->
+    <div id="formResults" class="mt-4"></div>
   </div>
+</section>
 
-  <div class="mg-stats">
-    <p>Moves: <span id="mg-moves">0</span></p>
-    <p>Matches: <span id="mg-matches">0</span></p>
+
+
+
+
+<section id="memory-game" class="memory-game-section section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Memory Game</h2>
+      <p>Test your memory with a flip-card game</p>
+    </div>
+
+    <div class="game-controls">
+      <div class="difficulty-selector">
+        <label for="difficultyLevel">Difficulty:</label>
+        <select id="difficultyLevel" class="form-select">
+          <option value="easy">Easy (4×3)</option>
+          <option value="hard">Hard (6×4)</option>
+        </select>
+      </div>
+
+      <div class="game-buttons">
+        <button id="startGameBtn" class="btn btn-outline-primary">Start</button>
+        <button id="restartGameBtn" class="btn btn-outline-secondary">Restart</button>
+      </div>
+    </div>
+
+    <div class="stats-panel">
+      <div class="stat-item">
+        <span class="label">Moves</span>
+        <span class="value" id="moveCount">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="label">Matched pairs</span>
+        <span class="value" id="matchCount">0</span>
+      </div>
+    </div>
+
+    <div id="gameBoard" class="game-board"></div>
+
+    <div id="winMessage" class="win-message"></div>
   </div>
-
-  <div id="mg-board" class="mg-board"></div>
-
-  <div id="mg-win-message" class="mg-win-message"></div>
 </section>
 
 

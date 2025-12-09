@@ -1,420 +1,309 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Find the contact form (template uses class "php-email-form")
-    const form = document.getElementById('contactForm') || document.querySelector('.php-email-form');
-    if (!form) return;
-
-    // Ensure results containers exist (create if missing)
-    let resultsDiv = document.getElementById('formResults');
-    if (!resultsDiv) {
-        resultsDiv = document.createElement('div');
-        resultsDiv.id = 'formResults';
-        resultsDiv.style.display = 'none';
-        resultsDiv.style.marginTop = '18px';
-        form.parentNode.insertBefore(resultsDiv, form.nextSibling);
-    }
-    let resultsDisplay = document.getElementById('resultsDisplay');
-    if (!resultsDisplay) {
-        resultsDisplay = document.createElement('div');
-        resultsDisplay.id = 'resultsDisplay';
-        resultsDiv.appendChild(resultsDisplay);
-    }
-
-    // Helper that finds element by id or name
-    function el(idOrName) {
-        return document.getElementById(idOrName) || document.querySelector(`[name="${idOrName}"]`);
-    }
-
-    // Fields (works whether inputs use id or only name)
-    const nameField = el('name');
-    const surnameField = el('surname');
-    const emailField = el('email');
-    const phoneField = el('phone');
-    const addressField = el('address');
-    const rating1Field = el('rating1');
-    const rating2Field = el('rating2');
-    const rating3Field = el('rating3');
-
-    // Generate helper tag
-    function generateHelperTag() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let tag = 'FE24-JS-CF-';
-        for (let i = 0; i < 5; i++) tag += chars.charAt(Math.floor(Math.random() * chars.length));
-        return tag;
-    }
-
-    // Escape HTML for safe output
-    function escapeHtml(s) {
-        if (!s) return '';
-        return String(s).replace(/[&<>"'`=\/]/g, function (c) {
-            return {
-                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '/': '&#x2F;', '`': '&#x60;', '=': '&#x3D;'
-            }[c];
-        });
-    }
-
-    // Display collected data and the average
-    function displayFormData(data) {
-        // numeric average
-        const a = Number(data.rating1) || 0;
-        const b = Number(data.rating2) || 0;
-        const c = Number(data.rating3) || 0;
-        const avg = Number(((a + b + c) / 3).toFixed(1));
-
-        // Color rules (non-overlapping):
-        // 0.0 <= avg < 4.0 -> red
-        // 4.0 <= avg < 7.0 -> orange
-        // 7.0 <= avg <= 10.0 -> green
-        let color = 'black';
-        if (Number.isFinite(avg)) {
-            if (avg < 4.0) color = 'red';
-            else if (avg < 7.0) color = 'orange';
-            else color = 'green';
-        }
-
-        resultsDisplay.innerHTML = `
-            <p><strong>Name:</strong> ${escapeHtml(data.name)}</p>
-            <p><strong>Surname:</strong> ${escapeHtml(data.surname)}</p>
-            <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
-            <p><strong>Phone number:</strong> ${escapeHtml(data.phone)}</p>
-            <p><strong>Address:</strong> ${escapeHtml(data.address)}</p>
-            <p><strong>Rating 1:</strong> ${data.rating1}</p>
-            <p><strong>Rating 2:</strong> ${data.rating2}</p>
-            <p><strong>Rating 3:</strong> ${data.rating3}</p>
-            <p><strong>Average Rating:</strong> <span style="color:${color}; font-weight:700;">${isNaN(avg) ? '-' : avg.toFixed(1)}</span></p>
-            <p><strong>Helper tag:</strong> ${escapeHtml(data.helperTag)}</p>
-        `;
-
-        resultsDiv.style.display = 'block';
-    }
-
-    // Simple popup
-    function showSuccessPopup() {
-        const popup = document.createElement('div');
-        popup.id = 'successPopup';
-        popup.innerHTML = `
-            <div style="
-                position: fixed; top:50%; left:50%; transform: translate(-50%,-50%);
-                background: linear-gradient(135deg,#667eea 0,#764ba2 100%); color:#fff;
-                padding:24px 32px; border-radius:12px; box-shadow:0 12px 36px rgba(0,0,0,.3);
-                z-index:10000; text-align:center;">
-                <strong style="display:block; font-size:1.1rem; margin-bottom:6px;">✓ Success!</strong>
-                <span>Form submitted successfully!</span>
-            </div>
-            <div id="successOverlay" style="position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:9999;"></div>
-        `;
-        document.body.appendChild(popup);
-        const overlay = document.getElementById('successOverlay');
-        if (overlay) overlay.addEventListener('click', () => popup.remove());
-        setTimeout(() => popup.remove(), 3000);
-    }
-
-    // Submit handler
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // Collect values (use fallback to empty string / zero)
-        const data = {
-            name: (nameField && nameField.value) ? nameField.value.trim() : '',
-            surname: (surnameField && surnameField.value) ? surnameField.value.trim() : '',
-            email: (emailField && emailField.value) ? emailField.value.trim() : '',
-            phone: (phoneField && phoneField.value) ? phoneField.value.trim() : '',
-            address: (addressField && addressField.value) ? addressField.value.trim() : '',
-            rating1: (rating1Field && rating1Field.value) ? rating1Field.value : 0,
-            rating2: (rating2Field && rating2Field.value) ? rating2Field.value : 0,
-            rating3: (rating3Field && rating3Field.value) ? rating3Field.value : 0,
-            helperTag: generateHelperTag()
-        };
-
-        console.log('Form Data:', data);
-
-        displayFormData(data);
-        showSuccessPopup();
-
-        // scroll results into view
-        resultsDiv.scrollIntoView({ behavior: 'smooth' });
-    });
-
+// Run setup once the HTML is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+	setupContactForm();
+	setupRangeDisplay();
+	setupMemoryGame();
 });
 
-// ===== MEMORY GAME (inserted) =====
-/*
-  The following code initializes the Flip Card Memory game using the IDs
-  present in index.html. It is safe to include inside the existing
-  DOMContentLoaded handler and will not interfere with other logic.
-*/
-(function initializeMemoryGameBlock() {
-	// DOM elements (IDs used in index.html)
-	const gameBoard = document.getElementById('game-board');
-	const difficultySelect = document.getElementById('difficulty-select');
-	const startBtn = document.getElementById('start-btn');
-	const restartBtn = document.getElementById('restart-btn');
-	const movesCount = document.getElementById('moves-count');
-	const matchesCount = document.getElementById('matches-count');
-	const timerDisplay = document.getElementById('timer-display');
-	const winMessage = document.getElementById('win-message');
-	const finalMoves = document.getElementById('final-moves');
-	const finalTime = document.getElementById('final-time');
-	const newRecordMessage = document.getElementById('new-record-message');
-	const bestScoreEasy = document.getElementById('best-score-easy');
-	const bestScoreHard = document.getElementById('best-score-hard');
+/* =========================================================
+   1. CONTACT FORM LOGIC
+   ========================================================= */
 
-	// If the page doesn't have the game section, do nothing
-	if (!gameBoard) return;
+function setupContactForm() {
+	const form = document.getElementById('contactForm');
+	if (!form) return; // if form not on this page, stop
 
-	// Card icons (use emoji for predictable display)
-	const cardIcons = ['🍎','🍌','🍇','🍒','🍑','🥝','🍉','🍍','🥥','🍓','🍈','🍋'];
+	form.addEventListener('submit', (event) => {
+		event.preventDefault(); // 4) prevent reload
 
-	const difficulties = {
-		easy: { cols: 4, rows: 3, pairs: 6 },
-		hard: { cols: 6, rows: 4, pairs: 12 }
-	};
+		// Collect all form values
+		const data = {
+			name: document.getElementById('name').value.trim(),
+			surname: document.getElementById('surname').value.trim(),
+			email: document.getElementById('email').value.trim(),
+			phone: document.getElementById('phone').value.trim(),
+			address: document.getElementById('address').value.trim(),
+			rating1: Number(document.getElementById('rating1').value),
+			rating2: Number(document.getElementById('rating2').value),
+			rating3: Number(document.getElementById('rating3').value)
+		};
 
-	let state = {
-		difficulty: (difficultySelect && difficultySelect.value) || 'easy',
-		cards: [],
-		flipped: [],
-		matchedPairs: 0,
-		moves: 0,
-		timer: 0,
-		timerInterval: null,
-		gameStarted: false,
-		bestScores: { easy: null, hard: null }
-	};
+		// Helper tag: FE24-JS-CF-XXXXX
+		data.helperTag = 'FE24-JS-CF-' + generateRandomCode(5);
 
-	// Load best scores from localStorage
-	function loadBestScores() {
-		const e = localStorage.getItem('memory_best_easy');
-		const h = localStorage.getItem('memory_best_hard');
-		state.bestScores.easy = e ? parseInt(e, 10) : null;
-		state.bestScores.hard = h ? parseInt(h, 10) : null;
-		if (bestScoreEasy) bestScoreEasy.textContent = state.bestScores.easy || '-';
-		if (bestScoreHard) bestScoreHard.textContent = state.bestScores.hard || '-';
+		// 4) print whole object in console
+		console.log('Contact form data:', data);
+
+		// Display results under the form
+		displayFormResults(data);
+
+		// 7) show success message
+		showSuccessPopup('Form submitted successfully!');
+
+		// optionally reset form
+		form.reset();
+		// reset slider labels to default
+		updateAllRangeLabels();
+	});
+}
+
+// random 5-character code, A–Z and 0–9
+function generateRandomCode(length) {
+	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+	let out = '';
+	for (let i = 0; i < length; i++) {
+		out += chars.charAt(Math.floor(Math.random() * chars.length));
 	}
+	return out;
+}
 
-	function saveBestScore(diff, moves) {
-		localStorage.setItem(`memory_best_${diff}`, String(moves));
-		state.bestScores[diff] = moves;
-		if (bestScoreEasy) bestScoreEasy.textContent = state.bestScores.easy || '-';
-		if (bestScoreHard) bestScoreHard.textContent = state.bestScores.hard || '-';
-	}
+function displayFormResults(data) {
+	const container = document.getElementById('formResults');
+	if (!container) return;
 
-	function shuffleArray(arr) {
-		const a = arr.slice();
-		for (let i = a.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[a[i], a[j]] = [a[j], a[i]];
-		}
-		return a;
-	}
+	// 5) average rating of three answers
+	const avg = (data.rating1 + data.rating2 + data.rating3) / 3;
+	const avgColor = getAverageColor(avg);
 
-	function createBoard() {
-		const cfg = difficulties[state.difficulty];
-		const pairs = cfg.pairs;
-		const selected = cardIcons.slice(0, pairs);
-		const cardData = shuffleArray([...selected, ...selected]).map((icon, idx) => ({ icon, id: idx }));
+	container.innerHTML = `
+    <p><strong>Name:</strong> ${data.name}</p>
+    <p><strong>Surname:</strong> ${data.surname}</p>
+    <p><strong>Email:</strong> ${data.email}</p>
+    <p><strong>Phone number:</strong> ${data.phone}</p>
+    <p><strong>Address:</strong> ${data.address}</p>
+    <p><strong>Helper tag:</strong> ${data.helperTag}</p>
+    <p><strong>${data.name} ${data.surname}:</strong>
+      <span id="averageRating" style="font-weight:bold; color:${avgColor}">
+        ${avg.toFixed(1)}
+      </span>
+    </p>
+  `;
 
-		state.cards = cardData;
-		state.flipped = [];
-		state.matchedPairs = 0;
-		state.moves = 0;
-		updateStats();
-		stopTimer();
-		state.timer = 0;
-		updateTimer();
+	container.style.display = 'block';
+}
 
-		// Clear board
-		gameBoard.innerHTML = '';
+// 6) choose color according to the average value
+function getAverageColor(avg) {
+	if (avg < 4) return 'red';      // 0–4
+	if (avg < 7) return 'orange';   // 4–7
+	return 'green';                 // 7–10
+}
 
-		// Grid layout
-		gameBoard.style.display = 'grid';
-		gameBoard.style.gridTemplateColumns = `repeat(${cfg.cols}, 1fr)`;
-		gameBoard.style.gap = '10px';
+/* ---- range slider live value display ---- */
 
-		// Fill board
-		cardData.forEach((card, index) => {
-			const div = document.createElement('button');
-			div.type = 'button';
-			div.className = 'memory-card';
-			div.dataset.index = index;
-			div.setAttribute('aria-label', 'Memory card');
-			// Front/back structure (front shows "?" and back shows icon)
-			div.innerHTML = `
-				<div class="card-inner">
-					<div class="card-front" aria-hidden="true">?</div>
-					<div class="card-back" aria-hidden="true">${card.icon}</div>
-				</div>
-			`;
-			// Ensure 3D flip behavior via inline styles
-			const inner = div.querySelector('.card-inner');
-			const front = inner.querySelector('.card-front');
-			const back = inner.querySelector('.card-back');
+function setupRangeDisplay() {
+	const sliders = document.querySelectorAll('input[type="range"]');
+	if (!sliders.length) return;
 
-			div.style.perspective = '900px';
-			inner.style.transition = 'transform 0.5s ease';
-			inner.style.transformStyle = 'preserve-3d';
-			inner.style.width = '100%';
-			// make cards taller so icons are readable
-			div.style.minHeight = '110px';
-			div.style.height = '100%';
+	sliders.forEach(slider => {
+		const label = document.getElementById(slider.id + 'Value');
+		if (!label) return;
 
-			front.style.backfaceVisibility = 'hidden';
-			front.style.position = 'absolute';
-			front.style.inset = '0';
-			front.style.display = 'flex';
-			front.style.alignItems = 'center';
-			front.style.justifyContent = 'center';
-			front.style.fontSize = 'clamp(24px, 5vw, 44px)';
+		// initial value
+		label.textContent = slider.value;
 
-			back.style.backfaceVisibility = 'hidden';
-			back.style.transform = 'rotateY(180deg)';
-			back.style.position = 'absolute';
-			back.style.inset = '0';
-			back.style.display = 'flex';
-			back.style.alignItems = 'center';
-			back.style.justifyContent = 'center';
-			back.style.fontSize = 'clamp(24px, 5vw, 44px)';
-
-			// click handler uses inner rotation
-			div.addEventListener('click', () => handleFlip(div, index));
-			gameBoard.appendChild(div);
+		// update on user move
+		slider.addEventListener('input', () => {
+			label.textContent = slider.value;
 		});
+	});
+}
+
+function updateAllRangeLabels() {
+	const sliders = document.querySelectorAll('input[type="range"]');
+	sliders.forEach(slider => {
+		const label = document.getElementById(slider.id + 'Value');
+		if (label) label.textContent = slider.value;
+	});
+}
+
+/* ---- success popup (7) ---- */
+
+function showSuccessPopup(message) {
+	const popup = document.createElement('div');
+	popup.className = 'success-popup';
+	popup.textContent = message;
+
+	document.body.appendChild(popup);
+
+	// fade out after 3s
+	setTimeout(() => {
+		popup.classList.add('hide');
+		setTimeout(() => popup.remove(), 500);
+	}, 3000);
+}
+
+/* =========================================================
+   2. MEMORY GAME LOGIC
+   ========================================================= */
+
+// 3) data source for cards – 6 unique items
+const memoryItems = [
+	{ id: 1, icon: '🎮' },
+	{ id: 2, icon: '🎧' },
+	{ id: 3, icon: '📚' },
+	{ id: 4, icon: '💻' },
+	{ id: 5, icon: '🎨' },
+	{ id: 6, icon: '⚡' }
+];
+
+const gameState = {
+	difficulty: 'easy',
+	cards: [],
+	flippedIndices: [],
+	matchedIndices: new Set(),
+	moves: 0,
+	matches: 0,
+	active: false
+};
+
+function setupMemoryGame() {
+	const difficultySelect = document.getElementById('difficultyLevel');
+	const startBtn = document.getElementById('startGameBtn');
+	const restartBtn = document.getElementById('restartGameBtn');
+
+	if (!difficultySelect || !startBtn || !restartBtn) return;
+
+	difficultySelect.addEventListener('change', () => {
+		gameState.difficulty = difficultySelect.value;
+		initBoard();
+	});
+
+	startBtn.addEventListener('click', () => {
+		gameState.active = true;
+		startBtn.disabled = true;
+	});
+
+	restartBtn.addEventListener('click', () => {
+		initBoard();
+		gameState.active = true;
+		startBtn.disabled = true;
+	});
+
+	initBoard(); // first setup
+}
+
+function initBoard() {
+	gameState.cards = buildCardSet(gameState.difficulty);
+	gameState.flippedIndices = [];
+	gameState.matchedIndices.clear();
+	gameState.moves = 0;
+	gameState.matches = 0;
+	gameState.active = false;
+
+	renderBoard();
+	updateStats();
+	clearWinMessage();
+
+	const startBtn = document.getElementById('startGameBtn');
+	if (startBtn) {
+		startBtn.disabled = false;
+	}
+}
+
+// Build pairs according to difficulty and shuffle them
+function buildCardSet(difficulty) {
+	const totalCards = difficulty === 'easy' ? 12 : 24; // 4x3 or 6x4
+	const pairs = totalCards / 2;
+	const selected = memoryItems.slice(0, pairs);
+
+	let cards = [];
+	selected.forEach(item => {
+		cards.push({ ...item });
+		cards.push({ ...item });
+	});
+
+	// Fisher–Yates shuffle
+	for (let i = cards.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[cards[i], cards[j]] = [cards[j], cards[i]];
 	}
 
-	function handleFlip(cardEl, index) {
-		if (!state.gameStarted) return;
-		if (cardEl.classList.contains('matched')) return;
-		if (state.flipped.length >= 2) return;
+	return cards;
+}
 
-		const inner = cardEl.querySelector('.card-inner');
-		if (inner._flipped) return;
-		// flip card to show back
-		inner.style.transform = 'rotateY(180deg)';
-		inner._flipped = true;
-		state.flipped.push({ el: cardEl, index, icon: state.cards[index].icon });
+function renderBoard() {
+	const board = document.getElementById('gameBoard');
+	if (!board) return;
 
-		if (state.flipped.length === 2) {
-			state.moves++;
-			updateStats();
-			checkMatch();
+	board.innerHTML = '';
+
+	const cols = gameState.difficulty === 'easy' ? 4 : 6;
+	board.style.display = 'grid';
+	board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+	gameState.cards.forEach((card, index) => {
+		const cell = document.createElement('button');
+		cell.className = 'memory-card';
+		cell.dataset.index = index;
+		cell.innerHTML = `<span class="card-inner">${card.icon}</span>`;
+
+		cell.addEventListener('click', () => handleCardClick(index, cell));
+		board.appendChild(cell);
+	});
+}
+
+function handleCardClick(index, cell) {
+	if (!gameState.active) return;
+	if (gameState.flippedIndices.length === 2) return;
+	if (gameState.flippedIndices.includes(index)) return;
+	if (gameState.matchedIndices.has(index)) return;
+
+	cell.classList.add('flipped');
+	gameState.flippedIndices.push(index);
+
+	if (gameState.flippedIndices.length === 2) {
+		checkForMatch();
+	}
+}
+
+function checkForMatch() {
+	gameState.moves++;
+
+	const [i1, i2] = gameState.flippedIndices;
+	const c1 = gameState.cards[i1];
+	const c2 = gameState.cards[i2];
+
+	if (c1.id === c2.id) {
+		// match
+		gameState.matchedIndices.add(i1);
+		gameState.matchedIndices.add(i2);
+		gameState.matches++;
+		gameState.flippedIndices = [];
+		updateStats();
+
+		if (gameState.matches === gameState.cards.length / 2) {
+			showWinMessage();
 		}
-	}
-
-	function checkMatch() {
-		const [a, b] = state.flipped;
-		if (!a || !b) return;
-
-		if (a.icon === b.icon) {
-			// matched - mark and keep flipped
-			a.el.classList.add('matched');
-			b.el.classList.add('matched');
-			state.matchedPairs++;
-			state.flipped = [];
+	} else {
+		// no match – flip back after 1s
+		setTimeout(() => {
+			document.querySelector(`[data-index="${i1}"]`)?.classList.remove('flipped');
+			document.querySelector(`[data-index="${i2}"]`)?.classList.remove('flipped');
+			gameState.flippedIndices = [];
 			updateStats();
-			const cfg = difficulties[state.difficulty];
-			if (state.matchedPairs === cfg.pairs) gameWon();
-		} else {
-			// flip back after short delay
-			setTimeout(() => {
-				const innerA = a.el.querySelector('.card-inner');
-				const innerB = b.el.querySelector('.card-inner');
-				innerA.style.transform = 'rotateY(0deg)';
-				innerB.style.transform = 'rotateY(0deg)';
-				innerA._flipped = false;
-				innerB._flipped = false;
-				state.flipped = [];
-			}, 900);
-		}
-	}
-
-	function updateStats() {
-		if (movesCount) movesCount.textContent = state.moves;
-		if (matchesCount) matchesCount.textContent = state.matchedPairs;
-	}
-
-	function startTimer() {
-		stopTimer();
-		state.timerInterval = setInterval(() => {
-			state.timer++;
-			updateTimer();
 		}, 1000);
 	}
+}
 
-	function updateTimer() {
-		if (!timerDisplay) return;
-		const mins = Math.floor(state.timer / 60).toString().padStart(2, '0');
-		const secs = (state.timer % 60).toString().padStart(2, '0');
-		timerDisplay.textContent = `${mins}:${secs}`;
-	}
+function updateStats() {
+	const moveEl = document.getElementById('moveCount');
+	const matchEl = document.getElementById('matchCount');
+	if (moveEl) moveEl.textContent = gameState.moves;
+	if (matchEl) matchEl.textContent = gameState.matches;
+}
 
-	function stopTimer() {
-		if (state.timerInterval) {
-			clearInterval(state.timerInterval);
-			state.timerInterval = null;
-		}
-	}
+function showWinMessage() {
+	gameState.active = false;
+	const win = document.getElementById('winMessage');
+	if (!win) return;
+	win.textContent = `You won! Total moves: ${gameState.moves}`;
+	win.style.display = 'block';
+}
 
-	function startGame() {
-		state.gameStarted = true;
-		startBtn && (startBtn.disabled = true);
-		restartBtn && (restartBtn.disabled = false);
-		if (difficultySelect) difficultySelect.disabled = true;
-		state.moves = 0;
-		state.matchedPairs = 0;
-		createBoard();
-		startTimer();
-	}
-
-	function restartGame() {
-		state.gameStarted = true;
-		state.moves = 0;
-		state.matchedPairs = 0;
-		createBoard();
-		startTimer();
-	}
-
-	function gameWon() {
-		stopTimer();
-		state.gameStarted = false;
-		startBtn && (startBtn.disabled = false);
-		restartBtn && (restartBtn.disabled = true);
-		if (difficultySelect) difficultySelect.disabled = false;
-
-		// show win message area if present
-		if (winMessage) {
-			const cfg = difficulties[state.difficulty];
-			finalMoves && (finalMoves.textContent = state.moves);
-			finalTime && (finalTime.textContent = (timerDisplay && timerDisplay.textContent) || '00:00');
-
-			// best score logic (fewest moves)
-			const currentBest = state.bestScores[state.difficulty];
-			if (currentBest === null || state.moves < currentBest) {
-				saveBestScore(state.difficulty, state.moves);
-				if (newRecordMessage) newRecordMessage.style.display = 'block';
-			} else if (newRecordMessage) {
-				newRecordMessage.style.display = 'none';
-			}
-			winMessage.style.display = 'block';
-		}
-	}
-
-	// Wire UI
-	if (startBtn) startBtn.addEventListener('click', startGame);
-	if (restartBtn) restartBtn.addEventListener('click', restartGame);
-	if (difficultySelect) {
-		difficultySelect.addEventListener('change', () => {
-			state.difficulty = difficultySelect.value;
-			// reinitialize board on change
-			state.gameStarted = false;
-			createBoard();
-		});
-	}
-
-	// initialize on load
-	loadBestScores();
-	// create initial board so user can see layout before starting
-	createBoard();
-
-	// Hide win message when board mounts
-	if (winMessage) winMessage.style.display = 'none';
-})();
-// ===== end memory game block =====
+function clearWinMessage() {
+	const win = document.getElementById('winMessage');
+	if (!win) return;
+	win.textContent = '';
+	win.style.display = 'none';
+}
